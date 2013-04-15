@@ -1,0 +1,22 @@
+<h1>Jamlab.io</h1>
+<div ng-init = "loadBuffer()">
+	<input type="button" value="Stop Audio" class="btn btn-inverse" ng-click="stopAudioStream()">
+	<input type="button" value="Start Audio" class="btn btn-inverse" ng-click="startAudioStream()">
+	<input type="button" value="Play Sample" class="btn btn-inverse" ng-click="playSample()">
+	<input type="button" value="Stop Sample" class="btn btn-inverse" ng-click="stopSample()">
+	<span class="nullable">
+		<select id="addPedal" ng-model='selectedPedal' ng-options='pedalType.name for pedalType in pedalTypes' ng-change="addPedal()">
+			<option value="">Add Pedal...</option>
+		</select>
+	</span>
+</div>
+
+<div class="pedalboard" >
+	<div ng-repeat = "pedal in pedals" class = "pedal {{pedal.class}}" id = "{{pedal.id}}">
+		<div class = 'pedalClose' ng-click = "removePedal($index)">x</div>
+		<div id = "controlBox{{pedal.id}}" class = "controlBox" control-set></div>
+		<span ng-init = "addControls($index)"></span>
+		<div class='toggleLight lightOn'></div>
+		<div class='switch'></div>
+	</div>
+</div>
