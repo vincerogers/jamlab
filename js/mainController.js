@@ -11,10 +11,12 @@ function mainController($scope){
 	$scope.board = new SoundBoard();
 	$scope.pedalTypes = new Array(
 		{id: 'distortion', name: 'distortion'},
-		{id:'reverb', name: 'reverb'}
+		{id:'reverb', name: 'reverb'},
+		{id: 'compressor', name: 'compressor'}
 	);
 	$scope.selectedPedal = null;
-
+	$scope.bufferLoaded = false;
+	$scope.buffer = null;
 	/////////////////////////////////////////////
 	/////////////////////////////////////////////
 	$scope.vid;
@@ -67,6 +69,9 @@ function mainController($scope){
 			case "reverb":
 				pedal = new ReverbPedal();
 				break;
+			case "compressor":
+				pedal = new CompressorPedal();
+				break;
 			default:
 				throw "Invalid Pedal Selection";
 		}
@@ -90,7 +95,6 @@ function mainController($scope){
 	}
 
 	$scope.loadBuffer = function(){
-		console.log("starting load");
 		var context = new webkitAudioContext();
 		(function loadSample(url) {
 			var request = new XMLHttpRequest();
@@ -100,9 +104,10 @@ function mainController($scope){
 			// Decode asynchronously
 			request.onload = function() {
 				context.decodeAudioData(request.response, function(buffer){
-					buff = buffer;
+					$scope.buffer = buffer;
 					$scope.board.setBuffer(buffer);
-					console.log("buffer set");
+					$scope.bufferLoaded = true;
+					$scope.$digest();
 				}, function(e){
 					console.log('Encountered error: ' + e);
 				});

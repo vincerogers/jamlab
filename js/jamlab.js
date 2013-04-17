@@ -13,6 +13,18 @@
 	var Pedal = function(){
 		this.node = null;
 		this.controls = new Array();
+
+		var bypass = false;
+		var bypassNode = null;
+		this.toggleBypass = function(){
+			bypass = !bypass;
+			if(bypassNode == null)
+				bypassNode = createJavaScriptNode(); //dummy pass through node
+			if(bypass){
+				//swap out nodes somehow
+			}
+		}
+
 	};
 
 	Pedal.prototype = {
@@ -34,16 +46,9 @@
 
 	var ReverbPedal = function(){
 		Pedal.call(this);
-		this.convolver = context.createConvolver();
+		this.node = context.createConvolver();
 	};
 	ReverbPedal.prototype = Object.create(Pedal.prototype);
-
-	ReverbPedal.prototype.getInput =  function(){
-			return this.convolver;
-	};
-	ReverbPedal.prototype.getOutput = function(){
-			return this.convolver;
-	};
 
 	window.ReverbPedal = ReverbPedal;
 
@@ -135,13 +140,63 @@
 		return context.destination;
 	};
 	Speaker.prototype.getOutput = function(){
-		throw("A speaker cannot have an output line");
+		throw ("A speaker cannot have an output line");
 	};
 	Speaker.prototype.connect = function(){
 		throw ("A speaker object cannot connect to anything");
 	};
 
 	window.Speaker = Speaker;
+
+
+	var CompressorPedal = function(){
+		Pedal.call(this);
+		this.node = context.createDynamicsCompressor();
+	};
+	CompressorPedal.prototype = Object.create(Pedal.prototype);
+	CompressorPedal.prototype.getControlBindings = function(){
+		var self = this;
+		return new Array({
+				name: "Threshold",
+				min: -100,
+				max: 0,
+				defaultValue: -24,
+				inc: 0.1,
+				setMethod: function(value){self.node.threshhold = value}
+			}, {
+				name: "Knee",
+				min: 0,
+				max: 40,
+				defaultValue: 30,
+				inc: 1,
+				setMethod: function(value){self.node.knee = value}
+			}, {
+				name: "Ratio",
+				min: 1,
+				max: 20,
+				defaultValue: 12,
+				inc: 0.05,
+				setMethod: function(value){self.node.ratio = value}
+			}, {
+				name: 'Attack',
+				min: 0,
+				max: 1,
+				defaultValue: 0.003,
+				inc: 0.001,
+				setMethod: function(value){self.node.attack = value}
+			}, {
+				name: 'Release',
+				min: 0,
+				max: 1,
+				defaultValue: 0.250,
+				inc: 0.05,
+				setMethod: function(value){self.node.release = value}
+			}
+		);
+	};
+
+
+	window.CompressorPedal = CompressorPedal;
 
 	/**
 	 * @param (AudioSource) source
@@ -153,6 +208,7 @@
 		this.speaker = new Speaker();
 		this.muted = true;
 		this.nodes = [];
+		this.inputBuffer = null;
 
 		if(typeof inputBuffer !== 'undefined')
 			this.setBuffer(inputBuffer);
@@ -160,17 +216,23 @@
 
 	SoundBoard.prototype = {
 		setBuffer: function(inputBuffer){
+			this.inputBuffer = inputBuffer;
 			this.audioSource = context.createBufferSource();
 			this.audioSource.buffer = inputBuffer;
 			this.audioSource.connect(this.speaker.getInput());
 		},
 		unMute: function(){
+			if(this.muted == false)
+				throw ("Cannot unmute a soundboard that is not muted");
+			this.setBuffer(this.inputBuffer);
 			this.audioSource.start(0);
 			console.log('Playing Sample ' + this.audioSource);
 			this.muted = false;
 		},
 		mute: function(){
-			this.audioSource.stop();
+			if(this.muted == true)
+				throw ("Cannot mute a soundboard that already muted");
+			this.audioSource.stop(0);
 			console.log('Stopping Sample');
 			this.muted = true;
 		},
@@ -206,8 +268,8 @@
 			this.checkIndex(index);
 			var prev = this.isFirstPedal(index) ? this.audioSource : this.nodes[index-1];
 			var next = this.isLastPedal(index) ? this.speaker : this.nodes[index+1];
-			prev.connect(next);
-			this.nodes.splice(index);
+			prev.connect(this.isFirstPedal(index) ? next.getInput() : next); //hack, need to refactor to make this cleaner
+			this.nodes.splice(index) ;
 		},
 		checkIndex: function(index){
 			if(index > this.nodes.length || index < 0)
@@ -221,5 +283,28 @@
 		}
 	};
 	window.SoundBoard = SoundBoard;
+
+	var Collection = function(){
+		this.items = {};
+		this.indexes = [];
+	}
+
+	Collection.prototype = {
+		addItem: function(item, index){
+			this.items[index] = item;
+			this.indexes.push(index);
+		},
+		removeItem: function(index){
+			delete this.items.index;
+			this.indexs.splice(index, 1);
+		},
+		itemAt: function(){
+			return this.items.index;
+		},
+		findIndex: function(){
+
+		}
+	}
+	window.Collection = Collection;
 })(window);
 

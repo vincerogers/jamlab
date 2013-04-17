@@ -15,7 +15,7 @@ var jamlab = angular.module('jamlab', []).
 			var pedalControls = pedal.pedal.getControlBindings();
 			for(var x = 0; x < pedalControls.length; x++){
 				var controlId = "control_" + pedal.id + "_" + x;
-				console.log("#controlBox" + pedal.id);
+				//console.log("#controlBox" + pedal.id);
 				(function(control){
 					angular.element(element).append(control.name + "<div id = '" + controlId + "'></div>");
 					 $("#" + controlId).slider({
@@ -25,6 +25,7 @@ var jamlab = angular.module('jamlab', []).
 						step: control.inc,
 						value: control.defaultValue,
 						slide: function( event, ui ) {
+							console.log('Adjusting ' + control.name + ': to ' + ui.value)
 							control.setMethod(ui.value);
 						}
 					});

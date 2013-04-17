@@ -20,6 +20,11 @@ div.pedal{
 	background: #9900cc;
 }
 
+.compressor{
+	background: darkred;
+	color: white;
+}
+
 .pedalboard{
 
 }
