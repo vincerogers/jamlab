@@ -1,0 +1,13 @@
+1. Get sequencing working
+2. Get bypass working
+3. Select between sample and live
+4. Recording
+
+Web RTC Sharing
+Drum Machine
+
+
+var board = new SoundBoard(buff);
+board.unMute();
+board.addPedalToEnd(new DistortionPedal());
+board.removePedal(0);

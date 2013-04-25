@@ -6,29 +6,20 @@
  * To change this template use File | Settings | File Templates.
  */
 var buff;
+
+//JamLab.loadPedalModule('ReverbPedal');
+
 function mainController($scope){
 	$scope.pedals = new Array();
 	$scope.board = new SoundBoard();
 	$scope.pedalTypes = new Array(
 		{id: 'distortion', name: 'distortion'},
 		{id:'reverb', name: 'reverb'},
-		{id: 'compressor', name: 'compressor'}
+		{id: 'compression', name: 'compression'}
 	);
 	$scope.selectedPedal = null;
 	$scope.bufferLoaded = false;
 	$scope.buffer = null;
-	/////////////////////////////////////////////
-	/////////////////////////////////////////////
-	$scope.vid;
-	$scope.aStream = new JamAudioStream();
-	$scope.vStream = new JamVideoStream();
-	$scope.vStream.onStreamReady(function(stream){
-		$scope.video.src(webkitURL.createObjectURL(stream));
-		//$scope.videoStreamURL = webkitURL.createObjectURL(stream);
-		$scope.$apply();
-	});
-	/////////////////////////////////////////////
-	/////////////////////////////////////////////
 
 	$scope.startAudioStream = function(){
 		$scope.aStream.connectUserMedia();
@@ -53,10 +44,6 @@ function mainController($scope){
 		$scope.board.mute();
 	}
 
-	$scope.addDistortionPedal = function(){
-		$scope.board.addPedalToEnd(new DistortionPedal());
-	}
-
 	$scope.addPedal = function(){
 		var pedal;
 		var seq = $scope.board.nodes.length;
@@ -70,7 +57,7 @@ function mainController($scope){
 				pedal = new ReverbPedal();
 				break;
 			case "compressor":
-				pedal = new CompressorPedal();
+				pedal = new CompressionPedal();
 				break;
 			default:
 				throw "Invalid Pedal Selection";
@@ -105,6 +92,7 @@ function mainController($scope){
 			request.onload = function() {
 				context.decodeAudioData(request.response, function(buffer){
 					$scope.buffer = buffer;
+					buff = buffer;
 					$scope.board.setBuffer(buffer);
 					$scope.bufferLoaded = true;
 					$scope.$digest();
