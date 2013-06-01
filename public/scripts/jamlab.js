@@ -6,7 +6,7 @@ requirejs.config({
     paths: {
     	'angular': '../components/angular/angular',
     	'jquery': '../components/jquery/jquery',
-    	'jquery_ui': '../components/jquery-ui/ui/jquery-ui.custom',
+    	'jquery_ui': '../components/jquery-ui/ui/jquery-ui',
     	'bootstrap': '../bootstrap/js/bootstrap.js',
     	'Pedal': 'pedals/Pedal',
     	'Speaker': 'pedals/Speaker'

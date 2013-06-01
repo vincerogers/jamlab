@@ -9,6 +9,7 @@
   "dependencies": {
     "jquery": "~2.0.1",
     "jquery-ui": "~1.10.3",
-    "requirejs": "~2.1.6"
+    "requirejs": "~2.1.6",
+    "angular": "~1.0.7"
   }
 }
