@@ -9,15 +9,18 @@
 	var DistortionPedal = function(){
 
 		Pedal.call(this);
-		this.waveShaper = context.createWaveShaper();
-		this.preGain = context.createGainNode();
+
+		this.waveShaper = this.context.createWaveShaper();
+		/*
+		this.preGain = this.context.createGainNode();
 		this.preGain.gain.value = 0.5;
-		this.postGain = context.createGainNode();
+		this.postGain = this.context.createGainNode();
 		this.postGain.gain.value = 0.5;
 
 		this.preGain.connect(this.waveShaper);
 		this.waveShaper.connect(this.postGain);
-
+		*/
+		this.insertSignal(this.waveShaper);
 		this.changeDistortion(0.95);
 	};
 	DistortionPedal.prototype = Object.create(Pedal.prototype);
@@ -30,7 +33,7 @@
 	};
 	DistortionPedal.prototype.changeDistortion = function(level){
 		//http://stackoverflow.com/questions/7840347/web-audio-api-waveshapernode
-		var sampleRate = context.sampleRate;
+		var sampleRate = this.context.sampleRate;
 		var curve = new Float32Array(sampleRate);
 		for(var i = 0; i < sampleRate; i++){
 			var k = 2 * level / (1 - level);
@@ -67,14 +70,6 @@
 				setMethod: this.setPostGain.bind(this)
 			}
 		);
-	};
-	DistortionPedal.prototype.setPreGain = function(value){
-		console.log("PREGAIN " + value);
-		this.preGain.gain.value = value;
-	};
-	DistortionPedal.prototype.setPostGain = function(value){
-		this.postGain.gain.value = value;
-				console.log("POSTGAIN " + value);
 	};
 
 	window.DistortionPedal = DistortionPedal;

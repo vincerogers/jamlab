@@ -1,17 +1,19 @@
 "use strict";
-require(['JamLabWebAudioContext', 'Pedals/Speaker'], function(){
-	(function(window, undefined){
+var myStream;
 
+	(function(window, undefined){
 		/**
 		 * @param (AudioSource) source
 		 * @param (AudioDestination) destination
 		 * @constructor
 		 */
+
 		var SoundBoard = function(inputBuffer){
 			this.audioSource = null;
 			this.speaker = new Speaker();
 			this.muted = true;
 			this.nodes = [];
+			this.context = JamLabWebAudioContext.getAudioContext();
 			this.inputBuffer = null;
 
 			if(typeof inputBuffer !== 'undefined')
@@ -19,10 +21,14 @@ require(['JamLabWebAudioContext', 'Pedals/Speaker'], function(){
 		};
 
 		SoundBoard.prototype = {
+			startUserMedia: function(stream){
+				myStream = stream;
+				this.audioSource = this.context.createMediaStreamSource(stream);
+				this.audioSource.connect(this.speaker.getInput());
+			},
 			setBuffer: function(inputBuffer){
-				this.context = JamLabWebAudio.getAudioContext();
 				this.inputBuffer = inputBuffer;
-				this.audioSource = context.createBufferSource();
+				this.audioSource = this.context.createBufferSource();
 				this.audioSource.buffer = inputBuffer;
 				this.audioSource.connect(this.speaker.getInput());
 			},
@@ -31,14 +37,12 @@ require(['JamLabWebAudioContext', 'Pedals/Speaker'], function(){
 					throw ("Cannot unmute a soundboard that is not muted");
 				this.setBuffer(this.inputBuffer);
 				this.audioSource.start(0);
-				console.log('Playing Sample ' + this.audioSource);
 				this.muted = false;
 			},
 			mute: function(){
 				if(this.muted == true)
 					throw ("Cannot mute a soundboard that already muted");
 				this.audioSource.stop(0);
-				console.log('Stopping Sample');
 				this.muted = true;
 			},
 			addPedalToEnd: function(pedal){
@@ -62,7 +66,7 @@ require(['JamLabWebAudioContext', 'Pedals/Speaker'], function(){
 				} else {
 					console.log("First pedal");
 					this.audioSource.connect(pedal.getInput());
-					this.nodes[0] = pedal;
+					this.nodes.push(pedal);
 				}
 
 				if(lastPedal){ //pedal at end, connect to output
@@ -76,12 +80,9 @@ require(['JamLabWebAudioContext', 'Pedals/Speaker'], function(){
 				this.checkIndex(index);
 				var prev = this.isFirstPedal(index) ? this.audioSource : this.nodes[index-1];
 				var next = this.isLastPedal(index) ? this.speaker : this.nodes[index+1];
-				console.log(prev);
-				console.log(next);
 				prev.disconnect();
 				prev.connect(this.isFirstPedal(index) ? next.getInput() : next); //hack, need to refactor to make this cleaner
 				this.nodes.splice(index, 1);
-				console.log(this.nodes);
 			},
 			checkIndex: function(index){
 				if(index > this.nodes.length || index < 0)
@@ -95,10 +96,4 @@ require(['JamLabWebAudioContext', 'Pedals/Speaker'], function(){
 			}
 		};
 		window.SoundBoard = SoundBoard;
-
-		var Collection = function(){
-			this.items = {};
-			this.indexes = [];
-		}
 	})(window);
-});

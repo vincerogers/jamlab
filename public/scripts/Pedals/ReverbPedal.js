@@ -1,9 +1,10 @@
 "use strict";
-require(['js/Pedals/Pedal.js'], function(){
+require(['scripts/Pedals/Pedal.js'], function(){
 	(function(window, undefined){
 		var ReverbPedal = function(){
 			Pedal.call(this);
-			this.node = context.createConvolver();
+			this.node = this.context.createConvolver();
+			this.insertSignal(this.node);
 		};
 		ReverbPedal.prototype = Object.create(Pedal.prototype);
 

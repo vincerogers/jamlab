@@ -1,0 +1,28 @@
+<h1>Jamlab.io</h1>
+<div ng-init = "loadBuffer(); inputMode = 'sample';">
+	<input type = "radio" ng-model = "inputMode" value = "sample" CHECKED>
+	<input type = "radio" ng-model = "inputMode" value = "live">
+	<span ng-show = "inputMode == 'sample'">
+		<input type="button" value="Connect Live" class="btn btn-inverse" ng-click="startAudioStream()">
+		<input type="button" value="Disconnect Live" class="btn btn-inverse" ng-click="stopAudioStream()">
+	</span>
+	<span ng-show = "inputMode == 'live'">
+		<input type="button" value="Play Sample" class="btn btn-inverse" ng-click="playSample()" ng-disabled = "!bufferLoaded">
+		<input type="button" value="Stop Sample" class="btn btn-inverse" ng-click="stopSample()" ng-disabled = "!bufferLoaded">
+	</span>
+	<span class="nullable">
+		<select id="addPedal" ng-model='selectedPedal' ng-options='pedalType.name for pedalType in pedalTypes' ng-change="addPedal()">
+			<option value="">Add Pedal...</option>
+		</select>
+	</span>
+</div>
+
+<div class="pedalboard" >
+	<div ng-repeat = "pedal in pedals" class = "pedal {{pedal.class}}" id = "{{pedal.id}}">
+		<div class = 'pedalClose' ng-click = "removePedal($index)">x</div>
+		<div id = "controlBox{{pedal.id}}" class = "controlBox" control-set></div>
+		<span ng-init = "addControls($index)"></span>
+		<div class='toggleLight lightOn'></div>
+		<div class='switch'></div>
+	</div>
+</div>

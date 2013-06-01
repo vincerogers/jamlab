@@ -1,14 +1,14 @@
 "use strict";
-require(['js/Pedals/Pedal.js'], function(){
+
 	(function(window, undefined){
 		var Speaker = function(){
 			Pedal.call(this);
-			this.node = context.destination;
+			this.node = (JamLabWebAudioContext.getAudioContext().destination);
 		};
 		Speaker.prototype = Object.create(Pedal.prototype);
 
 		Speaker.prototype.getInput = function(){
-			return context.destination;
+			return this.node;
 		};
 		Speaker.prototype.getOutput = function(){
 			throw ("A speaker cannot have an output line");
@@ -19,4 +19,3 @@ require(['js/Pedals/Pedal.js'], function(){
 
 		window.Speaker = Speaker;
 	})(window);
-});;

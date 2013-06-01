@@ -1,9 +1,9 @@
 "use strict";
-//require(['js/Pedals/Pedal.js']);
 (function(window, undefined){
 	var CompressionPedal = function(){
 		Pedal.call(this);
-		this.node = context.createDynamicsCompressor();
+		this.node = this.context.createDynamicsCompressor();
+		this.insertSignal(this.node);
 	};
 	CompressionPedal.prototype = Object.create(Pedal.prototype);
 	CompressionPedal.prototype.getControlBindings = function(){

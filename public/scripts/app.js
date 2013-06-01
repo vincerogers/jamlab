@@ -1,12 +1,11 @@
-
-define(['angular'], function (angular) {
+define(['angular', 'jquery', 'jquery_ui'], function (angular) {
 	'use strict';
-	return (angular.module('jamlab', []).
+	var angularModule = (angular.module('jamlab', []).
 	config(['$routeProvider', function($routeProvider){
 		$routeProvider.
-			when('/', {templateUrl: 'partials/main.html', controller: mainController}).
+			when('/', {templateUrl: 'views/main.html', controller: MainController}).
 			//when('/:categoryId', {templateUrl: 'partials/category.html', controller: categoryCtrl}).
-			when('/pedals/:pedalId', {templateUrl: 'partials/pedalTemplate.html', controller: pedalsController}).
+			//when('/pedals/:pedalId', {templateUrl: 'partials/pedalTemplate.html', controller: pedalsController}).
 			otherwise({
 				redirectTo: '/'
 			})
@@ -32,4 +31,14 @@ define(['angular'], function (angular) {
 				}
 			}
 		}));
-	});
+	var app = {};
+	app.init = function init() {
+	  //using global angular var
+	  angular.bootstrap(document, ['jamlab']);
+	};
+
+	//https://github.com/btilford/jam-plus-angular
+	//make the "todomvc" (Angular) module available on the "app" (AMD) module
+	app.__defineGetter__('jamlab', function() {return angularModule;});
+	return app;
+});
