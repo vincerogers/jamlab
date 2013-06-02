@@ -1,7 +1,5 @@
-"use strict";
-var myStream;
-
 	(function(window, undefined){
+		"use strict";
 		/**
 		 * @param (AudioSource) source
 		 * @param (AudioDestination) destination

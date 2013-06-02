@@ -1,6 +1,6 @@
-"use strict";
 //require(['js/Pedals/Pedal.js']);
 (function(window, undefined){
+	"use strict";
 	/**
 	 * Distortion pedal utilizing pre gain, linear interpolation wave shaping, and a post gain
 	 * @param webAudioContext

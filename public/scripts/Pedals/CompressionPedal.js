@@ -1,5 +1,5 @@
-"use strict";
 (function(window, undefined){
+	"use strict";
 	var CompressionPedal = function(){
 		Pedal.call(this);
 		this.node = this.context.createDynamicsCompressor();
@@ -14,35 +14,35 @@
 				max: 0,
 				defaultValue: -24,
 				inc: 0.1,
-				setMethod: function(value){self.node.threshhold = value}
+				setMethod: function(value){self.node.threshhold = value;}
 			}, {
 				name: "Knee",
 				min: 0,
 				max: 40,
 				defaultValue: 30,
 				inc: 1,
-				setMethod: function(value){self.node.knee = value}
+				setMethod: function(value){self.node.knee = value;}
 			}, {
 				name: "Ratio",
 				min: 1,
 				max: 20,
 				defaultValue: 12,
 				inc: 0.05,
-				setMethod: function(value){self.node.ratio = value}
+				setMethod: function(value){self.node.ratio = value;}
 			}, {
 				name: 'Attack',
 				min: 0,
 				max: 1,
 				defaultValue: 0.003,
 				inc: 0.001,
-				setMethod: function(value){self.node.attack = value}
+				setMethod: function(value){self.node.attack = value;}
 			}, {
 				name: 'Release',
 				min: 0,
 				max: 1,
 				defaultValue: 0.250,
 				inc: 0.05,
-				setMethod: function(value){self.node.release = value}
+				setMethod: function(value){self.node.release = value;}
 			}
 		);
 	};

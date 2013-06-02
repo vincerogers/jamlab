@@ -1,6 +1,5 @@
-"use strict";
-
 (function(window, undefined){
+	"use strict";
 	var audioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 	var obj = null;
 

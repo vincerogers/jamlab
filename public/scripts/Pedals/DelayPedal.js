@@ -1,5 +1,5 @@
-"use strict";
 (function(window, undefined){
+	"use strict";
 	var DelayPedal = function(){
 		Pedal.call(this);
 		this.node = this.context.createDelay();

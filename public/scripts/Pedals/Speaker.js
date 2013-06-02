@@ -1,6 +1,5 @@
-"use strict";
-
 	(function(window, undefined){
+		"use strict";
 		var Speaker = function(){
 			Pedal.call(this);
 			this.node = (JamLabWebAudioContext.getAudioContext().destination);
