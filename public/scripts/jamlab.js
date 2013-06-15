@@ -6,8 +6,8 @@ requirejs.config({
     	'jquery': '../components/jquery/jquery',
     	'jquery_ui': '../components/jquery-ui/ui/jquery-ui',
     	'bootstrap': '../bootstrap/js/bootstrap.js',
-    	'Pedal': 'pedals/Pedal',
-    	'Speaker': 'pedals/Speaker'
+    	'Pedal': 'Pedals/Pedal',
+    	'Speaker': 'Pedals/Speaker'
     },
 	shim: {
 		'angular' : {'exports' : 'angular'},
@@ -36,7 +36,7 @@ require(['JamLabWebAudioContext'], function(){
 
 var JamLab = {
 	loadPedalModule: function(pedalType){
-		require(["pedals/" + pedalType]);
+		require(["Pedals/" + pedalType]);
 	}
 }
 
