@@ -17,6 +17,17 @@ define(['angular', 'jquery', 'jquery_ui'], function (angular) {
 					var controlId = "control_" + pedal.id + "_" + x;
 					(function(control){
 						angular.element(element).append(control.name + "<div id = '" + controlId + "'></div>");
+						// $("#" + controlId).knob({
+						// 	'min': control.min,
+						// 	'width': 50,
+						// 	'max': control.max,
+						// 	'step': control.inc,
+						// 	'value': control.defaultValue,
+						// 	'change': function(v){
+						// 		control.setMethod(v);
+						// 	}
+						// }).val(control.defaultValue).trigger('change');
+
 						 $("#" + controlId).slider({
 							range: "min",
 							min: control.min,
@@ -27,6 +38,7 @@ define(['angular', 'jquery', 'jquery_ui'], function (angular) {
 								control.setMethod(ui.value);
 							}
 						});
+
 					})(pedalControls[x]);
 				}
 			}

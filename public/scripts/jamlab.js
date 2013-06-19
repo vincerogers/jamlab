@@ -6,6 +6,8 @@ requirejs.config({
     	'jquery': '../components/jquery/jquery',
     	'jquery_ui': '../components/jquery-ui/ui/jquery-ui',
     	'bootstrap': '../bootstrap/js/bootstrap.js',
+    	'recorder': '../components/Recorderjs/recorder',
+    	'jQuery-Knob': '../components/jQuery-Knob/js/jquery.knob',
     	'Pedal': 'pedals/Pedal',
     	'Speaker': 'pedals/Speaker'
     },
@@ -22,8 +24,8 @@ requirejs.config({
 	],
 });
 
-require(['JamLabWebAudioContext'], function(){
-	require(['Pedal'], function(){
+require(['JamLabWebAudioContext', 'recorder', 'jquery'], function(){
+	require(['Pedal', 'jQuery-Knob'], function(){
 		require(['Speaker'], function(){
 			require(['SoundBoard'], function(){
 				require(['app'], function(app){
@@ -38,6 +40,10 @@ var JamLab = {
 	loadPedalModule: function(pedalType){
 		require(["pedals/" + pedalType]);
 	}
+}
+
+var pr = function(message){
+	console.log(message);
 }
 
 

@@ -1,9 +1,10 @@
-'use strict';
+
 //require(['app'], function(){
 	//angular.module('jamlab')
 		//.controller('MainController', function ($scope) {
 		var buff;
 		function MainController($scope){
+			'use strict';
 			$scope.inputMode = 'sample';
 			$scope.pedals = new Array();
 			$scope.board = new SoundBoard();

@@ -10,6 +10,8 @@
     "jquery": "~2.0.1",
     "jquery-ui": "~1.10.3",
     "requirejs": "~2.1.6",
-    "angular": "~1.0.7"
+    "angular": "~1.0.7",
+    "Recorderjs": "https://github.com/mattdiamond/Recorderjs.git",
+    "jQuery-Knob": "https://github.com/aterrien/jQuery-Knob.git#~1.2.2"
   }
 }

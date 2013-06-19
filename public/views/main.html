@@ -15,6 +15,9 @@
 			<option value="">Add Pedal...</option>
 		</select>
 	</span>
+	<span ng-controller="RecorderController" ng-init="recording=false;">
+		<input type="button" id="recordButton" class="btn btn-inverse" value="Start Recording" ng-click="toggleRecording()">
+	</span>
 </div>
 
 <div class="pedalboard" >
