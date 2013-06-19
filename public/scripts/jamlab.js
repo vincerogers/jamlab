@@ -8,7 +8,7 @@ requirejs.config({
     	'bootstrap': '../bootstrap/js/bootstrap.js',
     	'recorder': '../components/Recorderjs/recorder',
     	'jQuery-Knob': '../components/jQuery-Knob/js/jquery.knob',
-    	'Pedal': 'pedals/Pedal',
+    	'Pedal': 'Pedals/Pedal',
     	'Speaker': 'pedals/Speaker'
     },
 	shim: {
@@ -38,7 +38,7 @@ require(['JamLabWebAudioContext', 'recorder', 'jquery'], function(){
 
 var JamLab = {
 	loadPedalModule: function(pedalType){
-		require(["pedals/" + pedalType]);
+		require(["Pedals/" + pedalType]);
 	}
 }
 
